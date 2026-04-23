@@ -79,9 +79,9 @@ class Direccion {
 		//Idém.
 	}
 	
-//	public Boolean estaHabilitadaEnvio() {
-//		??????	
-//	}
+	public Boolean estaHabilitadaEnvio(String pais) {
+		return ciudad.getProvincia().getPais().getNombre() == pais;
+	}
 }
 
 class Cliente {
@@ -114,9 +114,6 @@ class Cliente {
 	public Boolean getEsPreferencial() { return esPreferencial; }
 	public void setEsPreferencial(Boolean esPreferencial) { this.esPreferencial = esPreferencial; }
 	
-//	public Double getMontoDeuda() {
-//		??????
-//	}
 	
 	public Boolean estaHabilitado() {
 		boolean estaHabilitado = false;
@@ -165,15 +162,21 @@ class Carrito {
 		setEstado(Estado.CERRADO);
 	}
 	
-//	public Double getMontoPagado() {
-//		???
-//	}
-//	public Double getMontoCarrito() {
-//		???
-//	}
-//	public void getMontoDeuda() {
-//		???
-//	}
+	public Double getMontoPagado() {
+		double montoPagado = 0;
+		for (Pago pagoActual : pagos) {
+			montoPagado += pagoActual.getMonto();
+		}
+		return montoPagado;
+	}
+	public Double getMontoCarrito() {
+		double montoPagado = 0;
+		for (Item itemActual : items) {
+			montoPagado += itemActual.getPrecio() - itemActual.getDescuento();
+		}
+		return montoPagado;
+	}
+
 }
 
 class Pago {
@@ -250,7 +253,7 @@ class Item {
 	}
 	
 	public double getDescuento() {
-		return getPrecioOficial() - getPrecio();
+		return Math.max(0, getPrecioOficial() - getPrecio());
 	}
 }
 
@@ -297,7 +300,7 @@ class PrecioProducto {
 	public void setPrecio(Double precio) { this.precio = precio; }
 	
 	public Boolean getCumpleVigencia(Date fecha) {
-		return (fecha.after(fechaInicioVigencia) && fecha.after(fechaFinVigencia));
+		return (fecha.after(fechaInicioVigencia) && fecha.before(fechaFinVigencia));
 	}
 }
 
