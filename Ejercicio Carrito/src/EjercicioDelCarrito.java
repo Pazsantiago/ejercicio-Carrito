@@ -72,11 +72,11 @@ class Direccion {
 	
 	public String getLatitud() {
 		return calle1 + calle2 + altura + piso; 
-		//Lo hacemos asi porque sino tenemos que usar la formula de semiverseno/distancia ortodrómica
+		//Lo hacemos asi porque sino tenemos que usar la formula de semiverseno/distancia ortodrï¿½mica
 	}
 	public String getLongitud() {
 		return calle1 + calle2 + altura + piso; 
-		//Idém.
+		//Idï¿½m.
 	}
 	
 	public Boolean estaHabilitadaEnvio(String pais) {
@@ -161,21 +161,21 @@ class Carrito {
 	public void cerrar() {
 		setEstado(Estado.CERRADO);
 	}
-	
+
 	public Double getMontoPagado() {
-		double montoPagado = 0;
-		for (Pago pagoActual : pagos) {
-			montoPagado += pagoActual.getMonto();
-		}
-		return montoPagado;
+		return pagos.stream()
+				.mapToDouble(pago -> pago.monto())
+				.sum();
 	}
 	public Double getMontoCarrito() {
-		double montoPagado = 0;
-		for (Item itemActual : items) {
-			montoPagado += itemActual.getPrecio() - itemActual.getDescuento();
-		}
-		return montoPagado;
+		return items.stream()
+				.mapToDouble(item -> item.getPrecio())
+				.sum();
 	}
+	public Double getMontoDeuda() {
+		return getMontoPagado()- getMontoCarrito();
+	}
+}
 
 }
 
